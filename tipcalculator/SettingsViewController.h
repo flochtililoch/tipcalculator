@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  SettingsViewController.h
 //  tipcalculator
 //
 //  Created by Florent Bonomo on 9/20/15.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
+@interface SettingsViewController : UITableViewController <UITextFieldDelegate>
 
 @end
-
