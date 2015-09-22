@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tip.h"
 
 @interface TipViewController : UIViewController<UITextFieldDelegate>
-
 
 @end
 

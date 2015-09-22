@@ -9,6 +9,7 @@
 #import "TipViewController.h"
 
 @interface TipViewController ()
+
 @property (weak, nonatomic) IBOutlet UITextField *billTextField;
 @property (weak, nonatomic) IBOutlet UILabel *tipLabel;
 @property (weak, nonatomic) IBOutlet UILabel *totalLabel;
@@ -17,55 +18,84 @@
 - (IBAction)onBillAmoutChange:(id)sender;
 - (IBAction)onTipPercentageChange:(id)sender;
 
+@property (strong, nonatomic) Tip *tip;
+@property (strong, nonatomic) NSNumberFormatter *amountFormatter;
+@property (strong, nonatomic) NSNumberFormatter *percentageFormatter;
+
 @end
+
 
 @implementation TipViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+- (Tip *)tip {
+    if (!_tip) {
+        _tip = [Tip sharedInstance];
+    }
+    return _tip;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (NSNumberFormatter *)amountFormatter {
+    if (!_amountFormatter) {
+        _amountFormatter = [[NSNumberFormatter alloc] init];
+        [_amountFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
+    }
+    return _amountFormatter;
+}
+
+- (NSNumberFormatter *)percentageFormatter {
+    if (!_percentageFormatter) {
+        _percentageFormatter = [[NSNumberFormatter alloc] init];
+        [_percentageFormatter setNumberStyle: NSNumberFormatterPercentStyle];
+    }
+    return _percentageFormatter;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [self updateValues];
+    [self.billTextField becomeFirstResponder];
 }
 
 - (void)updateValues {
-    if (self.billTextField.text.length > 0) {
-        NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-        [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
-        
-        NSArray *tipValues = @[[[NSDecimalNumber alloc]initWithFloat:.15], [[NSDecimalNumber alloc]initWithFloat:.18], [[NSDecimalNumber alloc]initWithFloat:.20]];
-        NSDecimalNumber *tipValue = tipValues[self.tipControl.selectedSegmentIndex];
-        
-        NSDecimalNumber *billAmount = [[NSDecimalNumber alloc]initWithString:self.billTextField.text];
-        NSDecimalNumber *tipAmount = [tipValue decimalNumberByMultiplyingBy:billAmount];
-        NSDecimalNumber *totalAmount = [billAmount decimalNumberByAdding:tipAmount];
+    
+    // Update input fields with correct values / localization settings
+    self.billTextField.placeholder = [self.amountFormatter currencySymbol];
+    [self.tipControl removeAllSegments];
+    for (NSUInteger i = 0; i < self.tip.tipValues.count; i++) {
+        [self.tipControl insertSegmentWithTitle:[self.percentageFormatter stringFromNumber:self.tip.tipValues[i]]
+                                        atIndex:i
+                                       animated:NO];
+    }
+    self.tipControl.selectedSegmentIndex = self.tip.selectedTipIndex;
 
-        self.billTextField.placeholder = [numberFormatter currencySymbol];
-        self.tipLabel.text = [numberFormatter stringFromNumber:tipAmount];
-        self.totalLabel.text = [numberFormatter stringFromNumber:totalAmount];
+    // Update labels
+    if (self.billTextField.text.length > 0) {
+        self.tipLabel.text = [self.amountFormatter stringFromNumber:[self.tip getTipAmount]];
+        self.totalLabel.text = [self.amountFormatter stringFromNumber:[self.tip getTotalAmount]];
     } else {
         self.tipLabel.text = @"";
         self.totalLabel.text = @"";
+        
     }
 }
 
 - (IBAction)onBillAmoutChange:(id)sender {
+    [self.tip setBillAmount:[[NSDecimalNumber alloc]initWithString:self.billTextField.text]];
     [self updateValues];
 }
 
 - (IBAction)onTipPercentageChange:(id)sender {
+    self.tip.selectedTipIndex = (int) self.tipControl.selectedSegmentIndex;
     [self updateValues];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
+// Enforce decimal input only
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-    
     NSString *expression = @"^([0-9]+)?(\\.([0-9]{1,2})?)?$";
-    
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:expression
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:nil];
@@ -73,10 +103,10 @@
                                                         options:0
                                                           range:NSMakeRange(0, [newString length])];
     
-    NSLog(@"FOOOO");
-    if (numberOfMatches == 0)
+    if (numberOfMatches == 0) {
         return NO;
-
+    }
+    
     return YES;
 }
 

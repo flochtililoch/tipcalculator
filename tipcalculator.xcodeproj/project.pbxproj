@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A0991A51BB0CD3800A1130C /* Tip.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A0991A41BB0CD3800A1130C /* Tip.m */; settings = {ASSET_TAGS = (); }; };
 		4A9041E01BAF5D390041EDCF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9041DF1BAF5D390041EDCF /* main.m */; };
 		4A9041E31BAF5D390041EDCF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9041E21BAF5D390041EDCF /* AppDelegate.m */; };
 		4A9041E61BAF5D390041EDCF /* TipViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A9041E51BAF5D390041EDCF /* TipViewController.m */; };
@@ -40,6 +41,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A0991A41BB0CD3800A1130C /* Tip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tip.m; sourceTree = "<group>"; };
+		4A0991A61BB0CD4400A1130C /* Tip.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tip.h; sourceTree = "<group>"; };
 		4A9041DB1BAF5D390041EDCF /* tipcalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tipcalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A9041DF1BAF5D390041EDCF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		4A9041E11BAF5D390041EDCF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -89,6 +92,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A0991A31BB0CD0300A1130C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4A0991A61BB0CD4400A1130C /* Tip.h */,
+				4A0991A41BB0CD3800A1130C /* Tip.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		4A9041D21BAF5D390041EDCF = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +124,7 @@
 		4A9041DD1BAF5D390041EDCF /* tipcalculator */ = {
 			isa = PBXGroup;
 			children = (
+				4A0991A31BB0CD0300A1130C /* Model */,
 				4A9042171BAF8B730041EDCF /* Images */,
 				4A9041E11BAF5D390041EDCF /* AppDelegate.h */,
 				4A9041E21BAF5D390041EDCF /* AppDelegate.m */,
@@ -304,6 +317,7 @@
 				4A9041E31BAF5D390041EDCF /* AppDelegate.m in Sources */,
 				4A9041E01BAF5D390041EDCF /* main.m in Sources */,
 				4A90422F1BAFB6830041EDCF /* SettingsViewController.m in Sources */,
+				4A0991A51BB0CD3800A1130C /* Tip.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +543,7 @@
 				4A90420A1BAF5D390041EDCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4A90420B1BAF5D390041EDCF /* Build configuration list for PBXNativeTarget "tipcalculatorTests" */ = {
 			isa = XCConfigurationList;
@@ -537,6 +552,7 @@
 				4A90420D1BAF5D390041EDCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4A90420E1BAF5D390041EDCF /* Build configuration list for PBXNativeTarget "tipcalculatorUITests" */ = {
 			isa = XCConfigurationList;
@@ -545,6 +561,7 @@
 				4A9042101BAF5D390041EDCF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Tip.h"
 
-@interface SettingsViewController : UITableViewController <UITextFieldDelegate>
+@interface SettingsViewController : UITableViewController
+
+@property (strong, nonatomic) Tip *tip;
 
 @end
