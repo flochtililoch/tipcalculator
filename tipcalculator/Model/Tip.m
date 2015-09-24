@@ -17,21 +17,15 @@
 
 @implementation Tip
 
-// http://stackoverflow.com/questions/5720029/create-singleton-using-gcds-dispatch-once-in-objective-c
-+ (instancetype)sharedInstance {
-    static dispatch_once_t once;
-    static id sharedInstance;
-    dispatch_once(&once, ^{
-        sharedInstance = [[self alloc] init];
-    });
-    return sharedInstance;
-}
-
 - (id)init {
     if (self = [super init])  {
         self.selectedTipIndex = self.defaultTipIndex;
     }
     return self;
+}
+
+- (void)clear {
+    [self init].billAmount = nil;
 }
 
 @synthesize settings = _settings;

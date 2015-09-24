@@ -7,6 +7,7 @@
 //
 
 #import "SettingsViewController.h"
+#import "AppDelegate.h"
 
 @interface SettingsViewController ()
 
@@ -19,7 +20,8 @@
 
 - (Tip *)tip {
     if (!_tip) {
-        _tip = [Tip sharedInstance];
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        _tip = appDelegate.tipModel;
     }
     return _tip;
 }
@@ -37,11 +39,6 @@
     NSDecimalNumber *newTipValue = [[NSDecimalNumber alloc] initWithDouble:(stepper.value / (double) 100)];
     [self.tip setTipValueForIndex:newTipValue forIndex:(int) stepper.tag];
     [self.tableView reloadData];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

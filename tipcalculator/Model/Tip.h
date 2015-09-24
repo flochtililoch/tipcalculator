@@ -15,9 +15,9 @@
 @property (nonatomic) NSMutableArray *tipValues;
 @property (nonatomic) NSDecimalNumber *billAmount;
 
-+ (instancetype)sharedInstance;
 - (NSDecimalNumber *) getTipAmount;
 - (NSDecimalNumber *) getTotalAmount;
+- (void) clear;
 - (void) setTipValueForIndex: (NSDecimalNumber *) value forIndex:(int) index;
 
 @end

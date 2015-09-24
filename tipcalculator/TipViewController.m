@@ -7,6 +7,7 @@
 //
 
 #import "TipViewController.h"
+#import "AppDelegate.h"
 
 @interface TipViewController ()
 
@@ -29,7 +30,8 @@
 
 - (Tip *)tip {
     if (!_tip) {
-        _tip = [Tip sharedInstance];
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        _tip = appDelegate.tipModel;
     }
     return _tip;
 }
@@ -52,6 +54,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Ensure values gets updated when app comes back from background (in case model was cleared)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateValues)
+                                                 name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -71,19 +77,25 @@
     }
     self.tipControl.selectedSegmentIndex = self.tip.selectedTipIndex;
 
-    // Update labels
-    if (self.billTextField.text.length > 0) {
+    // Update field and labels
+    if (self.tip.billAmount) {
+        NSString *newValue = [self.tip.billAmount stringValue];
+        self.billTextField.text = newValue;
         self.tipLabel.text = [self.amountFormatter stringFromNumber:[self.tip getTipAmount]];
         self.totalLabel.text = [self.amountFormatter stringFromNumber:[self.tip getTotalAmount]];
     } else {
+        self.billTextField.text = @"";
         self.tipLabel.text = @"";
         self.totalLabel.text = @"";
-        
     }
 }
 
 - (IBAction)onBillAmoutChange:(id)sender {
-    [self.tip setBillAmount:[[NSDecimalNumber alloc]initWithString:self.billTextField.text]];
+    if (self.billTextField.text.length > 0) {
+        [self.tip setBillAmount:[[NSDecimalNumber alloc]initWithString:self.billTextField.text]];
+    } else {
+        [self.tip setBillAmount:nil];
+    }
     [self updateValues];
 }
 
@@ -108,6 +120,11 @@
     }
     
     return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    return NO;
 }
 
 @end
