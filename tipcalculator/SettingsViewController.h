@@ -11,6 +11,4 @@
 
 @interface SettingsViewController : UITableViewController
 
-@property (strong, nonatomic) Tip *tip;
-
 @end

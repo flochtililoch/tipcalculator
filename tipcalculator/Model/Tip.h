@@ -14,10 +14,14 @@
 @property (nonatomic) int selectedTipIndex;
 @property (nonatomic) NSMutableArray *tipValues;
 @property (nonatomic) NSDecimalNumber *billAmount;
+@property (nonatomic) BOOL roundTotalAmount;
 
-- (NSDecimalNumber *) getTipAmount;
-- (NSDecimalNumber *) getTotalAmount;
-- (void) clear;
-- (void) setTipValueForIndex: (NSDecimalNumber *) value forIndex:(int) index;
+- (NSDecimalNumber *)getTipAmount;
+- (NSDecimalNumber *)getFinalTipAmount;
+- (NSDecimalNumber *)getTotalAmount;
+- (NSDecimalNumber *)getFinalTotalAmount;
+- (NSDecimalNumber *)getPocketChange;
+- (void)clear;
+- (void)setTipValueForIndex: (NSDecimalNumber *) value forIndex:(int) index;
 
 @end

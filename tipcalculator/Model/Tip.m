@@ -25,7 +25,9 @@
 }
 
 - (void)clear {
-    [self init].billAmount = nil;
+    (void) [self init];
+    self.billAmount = nil;
+    self.roundTotalAmount = NO;
 }
 
 @synthesize settings = _settings;
@@ -88,8 +90,42 @@
     return [self.tipValues[self.selectedTipIndex] decimalNumberByMultiplyingBy:self.billAmount];
 }
 
+- (NSDecimalNumber *)getFinalTipAmount {
+    NSDecimalNumber *finalTipAmount = [self getTipAmount];
+    if (self.roundTotalAmount) {
+        NSDecimalNumber *pocketChange = [self getPocketChange];
+        finalTipAmount = [finalTipAmount decimalNumberByAdding:pocketChange];
+    }
+    return finalTipAmount;
+}
+
 - (NSDecimalNumber *)getTotalAmount {
     return [self.billAmount decimalNumberByAdding:[self getTipAmount]];
 }
+
+- (NSDecimalNumber *)getFinalTotalAmount {
+    return [self.billAmount decimalNumberByAdding:[self getFinalTipAmount]];
+}
+
+- (BOOL)roundTotalAmount {
+    if (!_roundTotalAmount) {
+        _roundTotalAmount = NO;
+    }
+    return _roundTotalAmount;
+}
+
+- (NSDecimalNumber *)getPocketChange {
+    NSDecimalNumberHandler *behavior = [NSDecimalNumberHandler decimalNumberHandlerWithRoundingMode:NSRoundPlain
+                                                                                             scale:0
+                                                                                  raiseOnExactness:NO
+                                                                                   raiseOnOverflow:NO
+                                                                                  raiseOnUnderflow:NO
+                                                                               raiseOnDivideByZero:NO];
+    NSDecimalNumber *totalAmountWithPocketChange = [[self getTotalAmount] decimalNumberByRoundingAccordingToBehavior:behavior];
+    NSDecimalNumber *pocketChange = [totalAmountWithPocketChange decimalNumberBySubtracting:[self getTotalAmount]];
+
+    return pocketChange;
+}
+
 
 @end

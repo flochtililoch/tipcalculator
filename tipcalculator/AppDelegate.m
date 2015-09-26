@@ -14,11 +14,11 @@
 
 @end
 
+
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Instanciate the model once, and let view controllers access it
     self.tipModel = [[Tip alloc] init];
     return YES;
 }

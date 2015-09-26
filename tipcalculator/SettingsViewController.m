@@ -11,19 +11,29 @@
 
 @interface SettingsViewController ()
 
+@property (strong, nonatomic) NSArray *sections;
+@property (strong, nonatomic) NSArray *tipLabels;
 @property (strong, nonatomic) NSNumberFormatter *percentageFormatter;
+@property (strong, nonatomic) Tip *tip;
+
 - (IBAction)onTipPercentageStepperChange:(id)sender;
 
 @end
 
 @implementation SettingsViewController
 
-- (Tip *)tip {
-    if (!_tip) {
-        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-        _tip = appDelegate.tipModel;
+- (NSArray *)sections {
+    if (!_sections) {
+        _sections = @[@"Tip Percentages"];
     }
-    return _tip;
+    return _sections;
+}
+
+- (NSArray *)tipLabels {
+    if (!_tipLabels) {
+        _tipLabels = @[@"Bad Service", @"Average Service", @"Good Service", @"Great Service"];
+    }
+    return _tipLabels;
 }
 
 - (NSNumberFormatter *)percentageFormatter {
@@ -34,50 +44,61 @@
     return _percentageFormatter;
 }
 
+- (Tip *)tip {
+    if (!_tip) {
+        AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+        _tip = appDelegate.tipModel;
+    }
+    return _tip;
+}
+
 - (IBAction)onTipPercentageStepperChange:(id)sender {
     UIStepper *stepper = sender;
+    
+    // Update tip percentage model with selected stepper value
     NSDecimalNumber *newTipValue = [[NSDecimalNumber alloc] initWithDouble:(stepper.value / (double) 100)];
     [self.tip setTipValueForIndex:newTipValue forIndex:(int) stepper.tag];
+    
     [self.tableView reloadData];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *sections = @[
-                          @"Tip Percentages"
-                        ];
-    return sections[section];
+    return self.sections[section];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return [self.sections count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    if (section == 0) {
+        return [self.tipLabels count];
+    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TipSettingCell"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TipSettingCell"];
+    UITableViewCell *cell;
+    
+    if([indexPath section] == 0) {
+
+        cell = [tableView dequeueReusableCellWithIdentifier:@"TipSettingCell"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TipSettingCell"];
+        }
+
+        NSDecimalNumber *tipValue = self.tip.tipValues[[indexPath row]];
+
+        UIStepper *stepper = cell.contentView.subviews[0];
+        [stepper setTag:[indexPath row]];
+        stepper.value = [tipValue doubleValue] * (double) 100;
+
+        UILabel *title = cell.contentView.subviews[1];
+        UILabel *details = cell.contentView.subviews[2];
+        [details setText:self.tipLabels[[indexPath row]]];
+        [title setText:[self.percentageFormatter stringFromNumber:tipValue]];
+
     }
-    
-    NSArray *tipLabels = @[
-                           @"Bad Service",
-                           @"Average Service",
-                           @"Good Service",
-                           @"Outstanding Service"
-                         ];
-    UIStepper *stepper = cell.contentView.subviews[0];
-    NSDecimalNumber *tipValue = self.tip.tipValues[[indexPath row]];
-    [stepper setTag:[indexPath row]];
-    stepper.value = [tipValue doubleValue] * (double) 100;
-    UILabel *title = cell.contentView.subviews[1];
-    UILabel *details = cell.contentView.subviews[2];
-    
-    [details setText:tipLabels[[indexPath row]]];
-    [title setText:[self.percentageFormatter stringFromNumber:tipValue]];
-    
     return cell;
 }
 
