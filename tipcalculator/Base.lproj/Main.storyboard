@@ -35,18 +35,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FH9-3c-qrB">
-                                <rect key="frame" x="25" y="72" width="560" height="94"/>
-                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="80"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" keyboardAppearance="light"/>
-                                <connections>
-                                    <action selector="onBillAmoutChange:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Csm-dT-uau"/>
-                                    <action selector="onBillAmoutChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="yMt-Gx-YmX"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="hSu-jP-l70"/>
-                                </connections>
-                            </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="057-hn-FZ4">
                                 <rect key="frame" x="2" y="174" width="595" height="426"/>
                                 <subviews>
@@ -118,6 +106,18 @@
                                     <outletCollection property="gestureRecognizers" destination="LW2-nh-AbG" appends="YES" id="ecq-hI-SsO"/>
                                 </connections>
                             </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="right" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FH9-3c-qrB">
+                                <rect key="frame" x="25" y="72" width="560" height="94"/>
+                                <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="ultraLight" pointSize="80"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" keyboardAppearance="light"/>
+                                <connections>
+                                    <action selector="onBillAmoutChange:" destination="BYZ-38-t0r" eventType="editingDidEnd" id="Csm-dT-uau"/>
+                                    <action selector="onBillAmoutChange:" destination="BYZ-38-t0r" eventType="editingChanged" id="yMt-Gx-YmX"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="hSu-jP-l70"/>
+                                </connections>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
